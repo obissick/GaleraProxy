@@ -6,7 +6,7 @@ Specific usage
 
 __Usage:__ Run Archive
 
-	java -jar MongoDBArchive.jar 
+	java -jar GaleraProxy.jar 
 
 __Example Config:__ Place config in /etc/galeraproxy/settings.properties     
 
