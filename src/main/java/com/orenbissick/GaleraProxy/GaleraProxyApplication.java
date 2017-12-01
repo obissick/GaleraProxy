@@ -18,6 +18,7 @@ public class GaleraProxyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GaleraProxyApplication.class, args);
         Configuration prop = new Configuration();
+        ServerSocket server = null;
         int lastServer = 0;
         try{
             // and the local port that we listen for connections on
@@ -34,7 +35,7 @@ public class GaleraProxyApplication {
 					e.printStackTrace();
 				}
             }
-            ServerSocket server = new ServerSocket(localport);
+            server = new ServerSocket(localport);
             while(true){
                 int choosenServer = chooseServer(prop.getLoadType(),nodes,lastServer);
                 System.out.println("Sending connection to " + hosts[choosenServer] + ":" + remoteport
@@ -50,8 +51,14 @@ public class GaleraProxyApplication {
                 lastServer = choosenServer;
             }
         }catch(IOException | IllegalArgumentException e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());   
         }
+        try {
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static int chooseServer(String type, DBNode[] nodes, int last){
